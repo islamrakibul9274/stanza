@@ -4,29 +4,14 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(), // 🚀 Powers the CSS we just cleaned up
-  ],
+  plugins: [react(), tailwindcss()],
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+    alias: { '@': path.resolve(__dirname, './src') }
   },
   build: {
-    cssMinify: 'esbuild', // 🛡️ CRITICAL: This fixes the "@theme" crash on Vercel
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('three')) return 'three-core';
-            if (id.includes('lucide')) return 'lucide';
-            if (id.includes('framer-motion')) return 'animations';
-            return 'vendor';
-          }
-        },
-      },
-    },
-    chunkSizeWarningLimit: 1000,
-  },
+    // 🛡️ Keep this: prevents Tailwind v4 from crashing the Vercel build
+    cssMinify: 'esbuild', 
+    // 📦 Keep this: stops Three.js from throwing "Large Chunk" warnings
+    chunkSizeWarningLimit: 2000 
+  }
 });
