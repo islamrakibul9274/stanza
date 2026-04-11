@@ -1,19 +1,22 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    tailwindcss(), // 🚀 Powers the CSS we just cleaned up
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
   build: {
+    cssMinify: 'esbuild', // 🛡️ CRITICAL: This fixes the "@theme" crash on Vercel
     rollupOptions: {
       output: {
-        // 🚀 Functional chunking to bypass TS syntax errors
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('three')) return 'three-core';
