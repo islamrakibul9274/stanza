@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { LucideCommand, LucideLayers, LogOut, ShieldCheck, User as UserIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Link, NavLink } from 'react-router-dom';
+import { LogOut, ShieldCheck } from 'lucide-react';
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const token = localStorage.getItem('aether_token');
 
@@ -15,17 +14,19 @@ const Navbar = () => {
 
       try {
         const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
-        const response = await fetch(`${API_URL}/api/tasks`, {
+        
+        // 🛡️ FIXED: Point this to your actual user/profile endpoint! 
+        // (Assuming you have an /api/auth/me or /api/user endpoint. If not, remove this fetch and just decode the token)
+        const response = await fetch(`${API_URL}/api/auth/me`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (response.ok) {
           const data = await response.json();
           setUser(data);
-          // Optional: Store tier globally for UI gating
-          localStorage.setItem('user_tier', data.tier);
+          localStorage.setItem('user_tier', data.tier || 'STANDARD');
         } else {
-          // Token might be expired or invalid
+          // Token is expired/invalid
           terminateSession();
         }
       } catch (error) {
@@ -36,10 +37,14 @@ const Navbar = () => {
     fetchProfile();
   }, [token]);
 
+  // 🛡️ FIXED: The Bulletproof Disconnect
   const terminateSession = () => {
-    localStorage.clear();
-    navigate('/auth');
-    window.location.reload();
+    // 1. Wipe the secure token
+    localStorage.removeItem('aether_token');
+    localStorage.removeItem('user_tier');
+    
+    // 2. Hard redirect to auth (Bypasses React Router to prevent memory crashes)
+    window.location.href = '/auth';
   };
 
   return (
@@ -76,21 +81,22 @@ const Navbar = () => {
 
       {/* 🔐 Auth & Identity Controls */}
       <div className="flex items-center gap-4">
-        {user ? (
+        {token ? (
           <div className="flex items-center gap-4">
              {/* 🎖️ Identity Badge */}
             <div className="hidden lg:flex flex-col items-end">
               <span className="font-accent text-[8px] font-black text-white/60 tracking-widest uppercase">
-                {user.neuralId || 'NODE_SYNCED'}
+                {user?.neuralId || 'NODE_SYNCED'}
               </span>
               <span className="font-accent text-[7px] font-bold text-primary-glow tracking-[0.2em] uppercase">
-                {user.tier} TIER
+                {user?.tier || 'ACTIVE'} TIER
               </span>
             </div>
 
             <button 
               onClick={terminateSession}
               className="flex items-center gap-2 rounded-full bg-red-500/10 border border-red-500/20 p-2 text-red-500 transition-all hover:bg-red-500 hover:text-white group"
+              title="Disconnect"
             >
               <LogOut size={16} />
             </button>
