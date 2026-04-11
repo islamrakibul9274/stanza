@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-// 🛡️ Added Trash2 to the imports
 import { Plus, Zap, CheckCircle2, Circle, Trash2, Loader2 } from 'lucide-react';
 
 const NexusTasker = () => {
@@ -9,11 +8,13 @@ const NexusTasker = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const token = localStorage.getItem('aether_token');
 
+  // 🌐 Unified API routing: Uses Vercel environment variable OR falls back to localhost
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
   // 📡 Fetch Tasks from MongoDB
   const fetchNeuralTasks = useCallback(async () => {
     if (!token) return;
     try {
-      const API_URL = import.meta.env.VITE_API_URL;
       const response = await fetch(`${API_URL}/api/tasks`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -22,7 +23,7 @@ const NexusTasker = () => {
     } catch (error) {
       console.error("NEURAL_FETCH_FAILED", error);
     }
-  }, [token]);
+  }, [token, API_URL]);
 
   useEffect(() => {
     fetchNeuralTasks();
@@ -35,7 +36,8 @@ const NexusTasker = () => {
 
     setIsSyncing(true);
     try {
-      const response = await fetch('http://localhost:5001/api/tasks', {
+      // 🛡️ Fixed: Replaced hardcoded localhost with dynamic API_URL
+      const response = await fetch(`${API_URL}/api/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +60,8 @@ const NexusTasker = () => {
   // 🗑️ Purge Protocol
   const purgeTask = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/tasks/${id}`, {
+      // 🛡️ Fixed: Replaced hardcoded localhost with dynamic API_URL
+      const response = await fetch(`${API_URL}/api/tasks/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -71,7 +74,8 @@ const NexusTasker = () => {
   // 🔄 Status Toggle
   const toggleStatus = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/tasks/${id}`, {
+      // 🛡️ Fixed: Replaced hardcoded localhost with dynamic API_URL
+      const response = await fetch(`${API_URL}/api/tasks/${id}`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
