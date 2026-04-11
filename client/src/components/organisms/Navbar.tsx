@@ -14,7 +14,8 @@ const Navbar = () => {
       if (!token) return;
 
       try {
-        const response = await fetch('http://localhost:5001/api/auth/me', {
+        const API_URL = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${API_URL}/api/tasks`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
