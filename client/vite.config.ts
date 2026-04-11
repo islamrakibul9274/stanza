@@ -9,9 +9,7 @@ export default defineConfig({
     alias: { '@': path.resolve(__dirname, './src') }
   },
   build: {
-    // 🛡️ Uses the esbuild package we just explicitly added
     cssMinify: 'esbuild', 
-    chunkSizeWarningLimit: 2000,
-    reportCompressedSize: false // Speeds up the build slightly
+    chunkSizeWarningLimit: 2000 
   }
 });
