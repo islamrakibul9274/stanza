@@ -23,7 +23,7 @@ if (!MONGO_URI) {
 const corsOptions = {
     origin: [
         'http://localhost:5173', 
-        'https://aether-os-nine.vercel.app/' // Replace with your actual production Vercel URL
+        'https://aether-os-yq24.vercel.app/' // Replace with your actual production Vercel URL
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
