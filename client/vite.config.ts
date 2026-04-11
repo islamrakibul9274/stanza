@@ -8,13 +8,10 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') }
   },
-  css: {
-    // 🛡️ Force PostCSS transformation to ensure @apply is resolved
-    transformer: 'postcss',
-  },
   build: {
-    // 🛡️ Use esbuild to avoid the LightningCSS "@theme" bug
+    // 🛡️ Uses the esbuild package we just explicitly added
     cssMinify: 'esbuild', 
-    chunkSizeWarningLimit: 2000 
+    chunkSizeWarningLimit: 2000,
+    reportCompressedSize: false // Speeds up the build slightly
   }
 });
