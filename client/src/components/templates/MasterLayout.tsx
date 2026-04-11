@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, {type ReactNode } from 'react';
 import Navbar from '../organisms/Navbar';
 import Footer from '../organisms/Footer';
 import MeshGradient from '../atoms/MeshGradient';

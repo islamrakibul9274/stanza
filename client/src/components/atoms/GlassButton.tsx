@@ -5,14 +5,18 @@ interface GlassButtonProps {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
-const GlassButton = ({ children, className = "", onClick }: GlassButtonProps) => {
+const GlassButton = ({ children, className, onClick, disabled, type }: GlassButtonProps) => {
   return (
     <motion.button
       whileHover={{ scale: 1.05, y: -2 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
+      disabled={disabled}
+      type={type}
       className={`glass-panel glass-edge group relative px-8 py-3 transition-all duration-300 ${className}`}
     >
       {/* Magnetic Glow Effect */}
