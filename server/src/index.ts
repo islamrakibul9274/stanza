@@ -21,11 +21,17 @@ if (!MONGO_URI) {
 
 // 🛰️ [SYSTEM]: Global CORS Configuration
 const corsOptions = {
-    origin: [
-        'http://localhost:5173', 
-        'https://aether-os-yq24.vercel.app/' // Replace with your actual production Vercel URL
-    ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // 🛡️ Dynamic origin check to allow ANY vercel preview/production link
+    origin: function (origin: string | undefined, callback: any) {
+        if (!origin) return callback(null, true);
+        
+        if (origin.includes('localhost') || origin.endsWith('vercel.app')) {
+            return callback(null, true);
+        }
+
+        return callback(new Error('Blocked by AetherOS CORS Firewall'), false);
+    },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     optionsSuccessStatus: 204
 };
@@ -64,5 +70,5 @@ mongoose.connect(MONGO_URI)
     .catch((err) => {
         console.error('🔴 [DATABASE]: SYNC_FAILED');
         console.error('📖 REASON:', err.message);
-        process.exit(1); // Force exit on DB failure so host can restart
+        process.exit(1); 
     });
