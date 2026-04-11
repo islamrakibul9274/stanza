@@ -11,6 +11,9 @@ const SecurePortal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // 🌐 Unified API routing
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -21,7 +24,8 @@ const SecurePortal = () => {
       : { email, accessKey, neuralId: "AETHER_NODE_01", tier: "IMMORTAL" };
 
     try {
-      const response = await fetch(`http://localhost:5001/api/auth/${endpoint}`, {
+      // 🛡️ Fixed: Dynamic routing via Vercel Environment Variables
+      const response = await fetch(`${API_URL}/api/auth/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
