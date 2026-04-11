@@ -13,7 +13,11 @@
 
 @layer base {
   body {
-    @apply bg-aether-bg text-white antialiased;
+    background-color: var(--color-aether-bg);
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
     /* Neural Mesh Gradient */
     background-image: 
       radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
@@ -24,17 +28,24 @@
 
 @layer components {
   .glass-panel {
-    @apply relative overflow-hidden rounded-2xl;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem; /* Equivalent to rounded-2xl */
     background: rgba(16, 185, 129, 0.03);
     border: 1px solid rgba(16, 185, 129, 0.1);
-    backdrop-filter: blur(var(--blur-aether)); /* Controlled by media queries */
+    backdrop-filter: blur(var(--blur-aether));
   }
 
   /* 🧪 The Phase 3 Noise Grain */
   .glass-panel::after {
     content: "";
-    @apply absolute inset-0 pointer-events-none;
-    opacity: var(--noise-opacity); /* Controlled by media queries */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: var(--noise-opacity);
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     mix-blend-mode: overlay;
   }

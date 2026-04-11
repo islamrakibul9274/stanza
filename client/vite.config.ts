@@ -8,10 +8,13 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') }
   },
+  css: {
+    // 🛡️ Force PostCSS transformation to ensure @apply is resolved
+    transformer: 'postcss',
+  },
   build: {
-    // 🛡️ Keep this: prevents Tailwind v4 from crashing the Vercel build
+    // 🛡️ Use esbuild to avoid the LightningCSS "@theme" bug
     cssMinify: 'esbuild', 
-    // 📦 Keep this: stops Three.js from throwing "Large Chunk" warnings
     chunkSizeWarningLimit: 2000 
   }
 });
