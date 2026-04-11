@@ -1,33 +1,29 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   build: {
-    // 🚀 High-Performance Chunking Logic
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Separate Three.js from the main bundle
-          'three-core': ['three', '@react-three/fiber', '@react-three/drei'],
-          // Separate Framer Motion
-          'animations': ['framer-motion', 'lenis'],
-          // Separate UI Icons
-          'lucide': ['lucide-react'],
+        // 🚀 Functional chunking to bypass TS syntax errors
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('three')) return 'three-core';
+            if (id.includes('lucide')) return 'lucide';
+            if (id.includes('framer-motion')) return 'animations';
+            return 'vendor';
+          }
         },
       },
     },
-    // Prevent small assets from being base64 encoded to keep CSS clean
-    assetsInlineLimit: 4096,
+    chunkSizeWarningLimit: 1000,
   },
-  // Smooth out the HMR experience for glassmorphism styles
-  server: {
-    hmr: {
-      overlay: true,
-    },
-  },
-})
+});
