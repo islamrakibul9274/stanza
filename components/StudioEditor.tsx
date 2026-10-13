@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Sparkles, Save, Wand2, Users, Loader2, CheckCircle2 } from "lucide-react";
+import { Sparkles, Save, Wand2, Users, Loader2, CheckCircle2, Zap } from "lucide-react";
 import { VOICES, Voice } from "@/lib/voices";
 import VoiceSelector from "@/components/VoiceSelector";
 import WaveformPlayer from "@/components/WaveformPlayer";
@@ -176,6 +176,11 @@ export default function StudioEditor({
 
         {/* Pusher Live Collaborators & Actions */}
         <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-800/80 border border-neutral-700/60 text-xs text-neutral-300 font-mono">
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            <span>{credits.toLocaleString()} credits</span>
+          </div>
+
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-800/80 border border-neutral-700/60 text-xs text-neutral-300 font-mono">
             <Users className="w-3.5 h-3.5 text-emerald-400" />
             <span>{collaborators} live</span>

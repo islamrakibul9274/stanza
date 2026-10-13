@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Check, Sparkles, Loader2, ShieldCheck, Zap, HelpCircle } from "lucide-react";
+import { Check, Sparkles, Loader2, Zap } from "lucide-react";
 import { PLANS } from "@/lib/stripe";
 
 export default function PricingPage() {

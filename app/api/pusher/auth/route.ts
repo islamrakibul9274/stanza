@@ -19,8 +19,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(authResponse);
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to authorize Pusher channel";
     console.error("Pusher Auth Error:", error);
-    return NextResponse.json({ error: "Failed to authorize Pusher channel" }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

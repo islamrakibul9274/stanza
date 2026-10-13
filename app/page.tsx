@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, ArrowRight, ShieldCheck, Zap, Layers, Globe, Radio } from "lucide-react";
+import { Sparkles, ArrowRight, ShieldCheck, Zap, Globe, Radio } from "lucide-react";
 import StudioEditor from "@/components/StudioEditor";
 import { VOICES } from "@/lib/voices";
 import { PLANS } from "@/lib/stripe";
@@ -127,7 +127,7 @@ export default function Home() {
             </div>
             <h3 className="font-semibold text-base text-white">Sub-Second Groq Engine</h3>
             <p className="text-xs text-neutral-400 leading-relaxed">
-              Powered by Groq's high-speed Llama-3.3 inference. Generate full podcast intros and polished commercial copy in milliseconds.
+              Powered by Groq&apos;s high-speed Llama-3.3 inference. Generate full podcast intros and polished commercial copy in milliseconds.
             </p>
           </div>
 

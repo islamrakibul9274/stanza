@@ -36,11 +36,9 @@ Follow these guidelines strictly:
       wordCount: script.trim().split(/\s+/).length,
       estimatedDurationSeconds: Math.ceil(script.trim().split(/\s+/).length / 2.5),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to generate script";
     console.error("Groq Script Generation Error:", error);
-    return NextResponse.json(
-      { error: error?.message || "Failed to generate script" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

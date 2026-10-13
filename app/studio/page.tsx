@@ -1,5 +1,5 @@
 import StudioEditor from "@/components/StudioEditor";
-import { Sparkles, History, HelpCircle } from "lucide-react";
+import { Sparkles, History } from "lucide-react";
 import Link from "next/link";
 
 export default function StudioPage() {

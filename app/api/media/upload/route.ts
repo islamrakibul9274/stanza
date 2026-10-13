@@ -13,15 +13,26 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadResult: any = await new Promise((resolve, reject) => {
+    const uploadResult = await new Promise<{
+      secure_url: string;
+      public_id: string;
+      format: string;
+      bytes: number;
+    }>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           resource_type: "auto",
           folder: "stanza_studio",
         },
         (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
+          if (error || !result) reject(error || new Error("Upload failed"));
+          else
+            resolve({
+              secure_url: result.secure_url,
+              public_id: result.public_id,
+              format: result.format,
+              bytes: result.bytes,
+            });
         }
       );
       uploadStream.end(buffer);
@@ -33,11 +44,9 @@ export async function POST(req: NextRequest) {
       format: uploadResult.format,
       bytes: uploadResult.bytes,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Cloudinary upload failed";
     console.error("Cloudinary upload failed:", error);
-    return NextResponse.json(
-      { error: error?.message || "Cloudinary upload failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

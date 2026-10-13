@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { connectToDatabase } from "@/lib/db";
 import { User } from "@/models/User";
@@ -11,12 +12,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing webhook signature" }, { status: 400 });
   }
 
-  let event;
+  let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err: any) {
-    console.error("Webhook signature verification failed:", err.message);
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Signature verification failed";
+    console.error("Webhook signature verification failed:", message);
+    return NextResponse.json({ error: `Webhook Error: ${message}` }, { status: 400 });
   }
 
   try {
@@ -24,8 +26,8 @@ export async function POST(req: NextRequest) {
 
     switch (event.type) {
       case "checkout.session.completed": {
-        const session = event.data.object as any;
-        const email = session.customer_email;
+        const session = event.data.object as Stripe.Checkout.Session;
+        const email = session.customer_email || session.customer_details?.email;
         const planId = session.metadata?.planId;
         const credits = Number(session.metadata?.credits || 100000);
 
@@ -35,8 +37,8 @@ export async function POST(req: NextRequest) {
             {
               plan: planId,
               credits,
-              stripeCustomerId: session.customer,
-              stripeSubscriptionId: session.subscription,
+              stripeCustomerId: typeof session.customer === "string" ? session.customer : undefined,
+              stripeSubscriptionId: typeof session.subscription === "string" ? session.subscription : undefined,
             },
             { upsert: true }
           );
@@ -45,7 +47,7 @@ export async function POST(req: NextRequest) {
       }
 
       case "customer.subscription.deleted": {
-        const subscription = event.data.object as any;
+        const subscription = event.data.object as Stripe.Subscription;
         await User.findOneAndUpdate(
           { stripeSubscriptionId: subscription.id },
           { plan: "free", credits: 10000 }
@@ -54,12 +56,11 @@ export async function POST(req: NextRequest) {
       }
 
       default:
-        // Unhandled event
         break;
     }
 
     return NextResponse.json({ received: true });
-  } catch (dbError: any) {
+  } catch (dbError: unknown) {
     console.error("Database update on webhook failed:", dbError);
     return NextResponse.json({ error: "Webhook handler failed" }, { status: 500 });
   }

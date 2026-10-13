@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Folder, Trash2, Copy, Check, ArrowRight, Play, Loader2 } from "lucide-react";
+import { Folder, Trash2, Copy, Check, ArrowRight, Loader2 } from "lucide-react";
 import { getPusherClient } from "@/lib/pusher";
 
 interface ProjectItem {
@@ -92,7 +92,7 @@ export default function LibraryPage() {
             <Folder className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
             <h3 className="text-base font-semibold text-white">No saved projects yet</h3>
             <p className="text-xs text-neutral-400 mt-1 max-w-sm mx-auto">
-              Draft a script in the Studio Playground and click "Save Project" to store it here.
+              Draft a script in the Studio Playground and click &ldquo;Save Project&rdquo; to store it here.
             </p>
             <div className="mt-6">
               <Link

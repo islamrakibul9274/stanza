@@ -41,11 +41,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to initiate Stripe session";
     console.error("Stripe Checkout Session Error:", error);
-    return NextResponse.json(
-      { error: error?.message || "Failed to initiate Stripe session" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

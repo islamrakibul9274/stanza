@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX, Download, RotateCcw } from "lucide-react";
 import { formatTime } from "@/lib/utils";
 

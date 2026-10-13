@@ -8,9 +8,10 @@ export async function GET() {
     await connectToDatabase();
     const projects = await Project.find().sort({ createdAt: -1 }).limit(50);
     return NextResponse.json({ projects });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to load projects";
     console.error("GET Projects Error:", error);
-    return NextResponse.json({ error: error.message || "Failed to load projects" }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -48,9 +49,10 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ project: newProject }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to create project";
     console.error("POST Project Error:", error);
-    return NextResponse.json({ error: error.message || "Failed to create project" }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -73,8 +75,9 @@ export async function DELETE(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, id });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to delete project";
     console.error("DELETE Project Error:", error);
-    return NextResponse.json({ error: error.message || "Failed to delete project" }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
