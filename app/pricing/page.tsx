@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Check, Sparkles, Loader2, Zap } from "lucide-react";
-import { PLANS } from "@/lib/stripe";
+import { PLANS } from "@/lib/plans";
 
 export default function PricingPage() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);

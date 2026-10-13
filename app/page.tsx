@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Sparkles, ArrowRight, ShieldCheck, Zap, Globe, Radio } from "lucide-react";
 import StudioEditor from "@/components/StudioEditor";
 import { VOICES } from "@/lib/voices";
-import { PLANS } from "@/lib/stripe";
+import { PLANS } from "@/lib/plans";
 
 export default function Home() {
   return (
