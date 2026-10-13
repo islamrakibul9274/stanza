@@ -35,6 +35,38 @@ export default function RootLayout({
       className={`dark scroll-smooth ${roboto.variable} ${robotoMono.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var origSet = Element.prototype.setAttribute;
+                  Element.prototype.setAttribute = function(name, val) {
+                    if (name === 'bis_skin_checked') return;
+                    return origSet.apply(this, arguments);
+                  };
+                  if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') {
+                    var observer = new MutationObserver(function(mutations) {
+                      for (var i = 0; i < mutations.length; i++) {
+                        var m = mutations[i];
+                        if (m.type === 'attributes' && m.attributeName === 'bis_skin_checked') {
+                          m.target.removeAttribute('bis_skin_checked');
+                        }
+                      }
+                    });
+                    observer.observe(document.documentElement, {
+                      attributes: true,
+                      subtree: true,
+                      attributeFilter: ['bis_skin_checked']
+                    });
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${roboto.className} min-h-screen bg-neutral-950 text-neutral-100 flex flex-col font-sans antialiased selection:bg-neutral-800 selection:text-white`}
         suppressHydrationWarning
