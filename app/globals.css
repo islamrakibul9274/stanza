@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --card: #121215;
+  --card-foreground: #f4f4f5;
+  --popover: #121215;
+  --popover-foreground: #f4f4f5;
+  --primary: #ffffff;
+  --primary-foreground: #09090b;
+  --secondary: #1e1e24;
+  --secondary-foreground: #f4f4f5;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --accent: #27272a;
+  --accent-foreground: #f4f4f5;
+  --border: #27272a;
+  --ring: #3f3f46;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ElevenLabs-style subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Clean glass border */
+.subtle-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.subtle-border-t {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.subtle-border-b {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Audio waveform animation */
+@keyframes wave-pulse {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-waveform {
+  animation: wave-pulse 1.2s ease-in-out infinite;
+}
