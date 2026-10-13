@@ -39,16 +39,16 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+        sans: ["var(--font-roboto)", "Roboto", "sans-serif"],
+        mono: ["var(--font-roboto-mono)", "Roboto Mono", "monospace"],
       },
       borderRadius: {
         "2xl": "1rem",
         "3xl": "1.5rem",
       },
       boxShadow: {
-        "subtle": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-        "elevation": "0 8px 30px rgba(0, 0, 0, 0.08)",
+        subtle: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        elevation: "0 8px 30px rgba(0, 0, 0, 0.08)",
         "dark-elevation": "0 8px 30px rgba(0, 0, 0, 0.45)",
       },
     },

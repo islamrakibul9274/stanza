@@ -12,6 +12,12 @@ interface WaveformPlayerProps {
   onExport?: () => void;
 }
 
+const STATIC_BAR_HEIGHTS: number[] = [
+  40, 52, 62, 68, 70, 68, 62, 53, 44, 38, 36, 39, 46, 56, 65, 72,
+  74, 71, 64, 54, 43, 35, 32, 34, 41, 51, 62, 70, 74, 72, 65, 54,
+  43, 34, 30, 31, 38, 48, 59, 68, 73, 72, 66, 56, 44, 34, 29, 30
+];
+
 export default function WaveformPlayer({
   isPlaying,
   onTogglePlay,
@@ -22,14 +28,7 @@ export default function WaveformPlayer({
   const [progress, setProgress] = useState(0);
   const [speed, setSpeed] = useState(1.0);
   const [isMuted, setIsMuted] = useState(false);
-
-  // Generate realistic waveform heights (ElevenLabs aesthetic)
-  const barHeights = useRef<number[]>(
-    Array.from({ length: 48 }, (_, i) => {
-      const base = Math.sin(i * 0.25) * 25 + Math.cos(i * 0.45) * 15 + 40;
-      return Math.max(15, Math.min(85, Math.floor(base)));
-    })
-  ).current;
+  const barHeights = STATIC_BAR_HEIGHTS;
 
   useEffect(() => {
     let interval: NodeJS.Timeout;

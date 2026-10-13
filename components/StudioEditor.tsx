@@ -164,6 +164,7 @@ export default function StudioEditor({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Name your production..."
+            suppressHydrationWarning
             className="w-full bg-transparent text-lg font-medium text-white placeholder-neutral-500 focus:outline-none focus:ring-0 tracking-tight"
           />
           <div className="flex items-center gap-3 text-xs text-neutral-400 mt-0.5">
@@ -246,6 +247,7 @@ export default function StudioEditor({
             value={script}
             onChange={(e) => setScript(e.target.value)}
             placeholder="Type or paste your script here, or use Groq AI to draft one instantly..."
+            suppressHydrationWarning
             className="w-full h-48 bg-transparent text-white placeholder-neutral-600 focus:outline-none resize-none font-sans text-base sm:text-lg leading-relaxed selection:bg-neutral-700"
           />
         </div>

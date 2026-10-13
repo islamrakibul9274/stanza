@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, Check, Volume2 } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 import { VOICES, Voice } from "@/lib/voices";
 import { cn } from "@/lib/utils";
 
@@ -15,27 +15,28 @@ export default function VoiceSelector({ selectedVoice, onSelectVoice }: VoiceSel
 
   return (
     <div className="relative">
-      {/* Trigger Button */}
+      {/* Trigger Button - Using phrasing spans inside button to prevent HTML hydration errors */}
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-3 px-3.5 py-2 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-neutral-700 transition-all text-left group"
       >
-        <div className="w-7 h-7 rounded-lg bg-neutral-800 border border-neutral-700/80 flex items-center justify-center font-bold text-xs text-neutral-200">
+        <span className="w-7 h-7 rounded-lg bg-neutral-800 border border-neutral-700/80 flex items-center justify-center font-bold text-xs text-neutral-200 shrink-0">
           {selectedVoice.name[0]}
-        </div>
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2">
+        </span>
+        <span className="flex flex-col">
+          <span className="flex items-center gap-2">
             <span className="text-xs font-semibold text-white tracking-tight">
               {selectedVoice.name}
             </span>
             <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-neutral-800 text-neutral-400">
               {selectedVoice.accent}
             </span>
-          </div>
+          </span>
           <span className="text-[11px] text-neutral-400">
             {selectedVoice.category}
           </span>
-        </div>
+        </span>
         <ChevronDown
           className={cn(
             "w-4 h-4 text-neutral-400 ml-2 transition-transform duration-200",
@@ -61,6 +62,7 @@ export default function VoiceSelector({ selectedVoice, onSelectVoice }: VoiceSel
                 return (
                   <button
                     key={voice.id}
+                    type="button"
                     onClick={() => {
                       onSelectVoice(voice);
                       setIsOpen(false);
@@ -72,24 +74,24 @@ export default function VoiceSelector({ selectedVoice, onSelectVoice }: VoiceSel
                         : "hover:bg-neutral-800/60 text-neutral-300"
                     )}
                   >
-                    <div className="flex items-start gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-neutral-800/90 border border-neutral-700/60 flex items-center justify-center font-bold text-xs text-white shrink-0 mt-0.5">
+                    <span className="flex items-start gap-2.5">
+                      <span className="w-8 h-8 rounded-lg bg-neutral-800/90 border border-neutral-700/60 flex items-center justify-center font-bold text-xs text-white shrink-0 mt-0.5">
                         {voice.name[0]}
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-1.5">
+                      </span>
+                      <span className="flex flex-col text-left">
+                        <span className="flex items-center gap-1.5">
                           <span className="text-xs font-semibold text-white">
                             {voice.name}
                           </span>
                           <span className="text-[10px] text-neutral-400 font-mono">
                             &bull; {voice.accent}
                           </span>
-                        </div>
-                        <p className="text-[11px] text-neutral-400 line-clamp-1 leading-snug">
+                        </span>
+                        <span className="text-[11px] text-neutral-400 line-clamp-1 leading-snug">
                           {voice.description}
-                        </p>
-                      </div>
-                    </div>
+                        </span>
+                      </span>
+                    </span>
 
                     {isSelected && (
                       <Check className="w-4 h-4 text-emerald-400 shrink-0 ml-2" />

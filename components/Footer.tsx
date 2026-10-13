@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
-          <p>&copy; {new Date().getFullYear()} Stanza Studio Inc. All rights reserved.</p>
+          <p suppressHydrationWarning>&copy; {new Date().getFullYear()} Stanza Studio Inc. All rights reserved.</p>
           <p className="font-mono text-[11px]">Crafted for high-fidelity media production</p>
         </div>
       </div>
